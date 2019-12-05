@@ -75,46 +75,15 @@ void UiMaker::updateContent()
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
 }
 
-void UiMaker::updateRange()
-{
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
 
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	maxx = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-	maxy = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-}
 
-void UiMaker::setCursor(int x, int y)
-{
-	COORD p = { x, y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), p);
-}
-
-void UiMaker::getCursor(int* x, int* y)
-{
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	*x = csbi.dwCursorPosition.X;
-	*y = csbi.dwCursorPosition.Y;
-}
 
 UiMaker::UiMaker(std::vector <File> f, std::string d)
 	:files(f), dir(d), cursor(0)
 {
-	updateRange();
 	system("color f0");
 }
 
-bool UiMaker::sizeChanges()
-{
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	if (maxx != csbi.srWindow.Right - csbi.srWindow.Left + 1 ||
-		maxy != csbi.srWindow.Bottom - csbi.srWindow.Top + 1) return true;
-	else return false;
-}
 
 void UiMaker::updateContent(std::vector<File> f, std::string d)
 {
@@ -132,10 +101,6 @@ void UiMaker::cursorMove(int move)
 	updateContent();
 }
 
-void UiMaker::clearScreen()
-{
-	system("cls");
-}
 
 File UiMaker::getFile()
 {
@@ -157,9 +122,3 @@ void UiMaker::refresh()
 	draw();
 }
 
-void UiMaker::getRange(int* x, int* y)
-{
-	updateRange();
-	*x = maxx;
-	*y = maxy;
-}

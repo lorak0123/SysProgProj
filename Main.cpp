@@ -3,23 +3,36 @@
 #include "KeyboardMenager.h"
 #include "PropertiesDialog.h"
 #include <vector>
+#include "CopyDaysAdapter.h"
 
 
 using namespace std;
 
 
+File setFileProperties(File f);
+
 
 int main(void)
 {
+	//CopyDaysAdapter test
+
+	/*CopyDaysAdapter cda;
+	cout << cda.getDay(0) << " | " << cda.getDay(1) << " | " << cda.getDay(2) << " | " << cda.getDay(3) << " | " << cda.getDay(4) << " | " << cda.getDay(5) << " | " << cda.getDay(6) << " | " << endl;
+	cda.switchDay(0); cda.switchDay(3); cda.switchDay(6);
+	cout << cda.getDay(0) << " | " << cda.getDay(1) << " | " << cda.getDay(2) << " | " << cda.getDay(3) << " | " << cda.getDay(4) << " | " << cda.getDay(5) << " | " << cda.getDay(6) << " | " << endl;
+	unsigned short a = cda;
+	cout << cda << endl;
+	system("pause");*/
+
 	UiMaker ui = UiMaker();
 
 	vector<File> files =
 	{
 		File("ASP .NET", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
 		File("C#", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
-		File("C++", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania", 1, 12),
+		File("C++", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania", 1),
 		File("JAVA", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
-		File("PRIR", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania", 2, 12),
+		File("PRIR", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania", 2),
 		File("Programowanie Projekt", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
 		File("ProgSysWindows", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
 		File("Projekt Wnek", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
@@ -44,14 +57,18 @@ int main(void)
 		}
 		else if (key == 97 || key == 65)
 		{
-			PropertiesDialog dial = PropertiesDialog(ui.getFile());
-			while (!dial.IsSet)
+			File file = ui.getFile();
+			File res = setFileProperties(file);
+
+			ui.refresh();
+			if (res.getCopyDate() != file.getCopyDate())
 			{
-				dial.show();
-				
-				cout << KeyboardMenager::listen();
+				cout << "save & refresh";
 			}
+
+			
 		}
+		else if (key == 83) break;
 
 
 
@@ -78,4 +95,29 @@ int main(void)
 	}*/
 
 	system("pause");
+}
+
+File setFileProperties(File f)
+{
+	PropertiesDialog dial = PropertiesDialog(f);
+
+	dial.show();
+
+	while (true)
+	{
+		int key = KeyboardMenager::listen();
+
+		if (key == 27) break;
+		else if (key == 32) dial.select();
+		else if (key == 75) dial.move(-1);
+		else if (key == 77) dial.move(1);
+		else if (key == 13)
+		{
+			f.setCopyDate(dial.getDays());
+			break;
+		}
+
+	}
+
+	return f;
 }
