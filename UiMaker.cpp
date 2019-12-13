@@ -54,11 +54,20 @@ void UiMaker::updateContent()
 			std::cout << '*';
 		}
 	}*/
+	int files_show_start = 0;
+	int new_cursor = cursor;
 
-	for (int i = 0; i < files.size(); i++)
+	if (cursor > files_size_y)
+	{
+		files_show_start = cursor - files_start_y;
+		new_cursor = cursor - files_show_start - 1;
+		std::cout << " --- " << files_show_start << " --- ";
+	}
+
+	for (int i = 0; i < files.size() && i < files_size_y; i++)
 	{
 
-		if (files[i].getCopyDate() != 0)
+		if (files[i + files_show_start].getCopyDate() != 0)
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 252);
 			setCursor(files_start_x - 2, files_start_y + (i));
@@ -66,11 +75,11 @@ void UiMaker::updateContent()
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
 		}
 
-		if (i == cursor) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 63);
-		else if (i == cursor + 1) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
+		if (i == new_cursor) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 63);
+		else if (i == new_cursor + 1) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
 
-		setCursor(files_start_x, files_start_y + (i));
-		std::cout << files[i].getName();
+		setCursor(files_start_x, files_start_y + i);
+		std::cout << files[i + files_show_start].getName();
 	}
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
 }

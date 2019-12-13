@@ -4,6 +4,7 @@
 #include "PropertiesDialog.h"
 #include <vector>
 #include "CopyDaysAdapter.h"
+#include "DirManager.h"
 
 
 using namespace std;
@@ -24,22 +25,13 @@ int main(void)
 	cout << cda << endl;
 	system("pause");*/
 
+	DirManager dm = DirManager("C:\\Users\\karol");
+
+
 	UiMaker ui = UiMaker();
 
-	vector<File> files =
-	{
-		File("ASP .NET", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
-		File("C#", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
-		File("C++", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania", 1),
-		File("JAVA", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
-		File("PRIR", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania", 2),
-		File("Programowanie Projekt", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
-		File("ProgSysWindows", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
-		File("Projekt Wnek", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania"),
-		File("Zadania projektowe C   IP11 s1.docx", "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania")
-	};
 
-	ui.updateContent(std::move(files), "C:\\Users\\karol\\OneDrive\\Documents\\Pliki\\Szko³a\\Jêzyki Programowania");
+	ui.updateContent(dm.getFiles(), dm.getPath());
 
 	ui.draw();
 
@@ -60,7 +52,7 @@ int main(void)
 			File file = ui.getFile();
 			File res = setFileProperties(file);
 
-			ui.refresh();
+			ui.refresh(); 
 			if (res.getCopyDate() != file.getCopyDate())
 			{
 				cout << "save & refresh";
@@ -93,8 +85,6 @@ int main(void)
 
 		cin.get();
 	}*/
-
-	system("pause");
 }
 
 File setFileProperties(File f)
