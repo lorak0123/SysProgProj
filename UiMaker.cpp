@@ -46,21 +46,21 @@ void UiMaker::updateContent()
 	int files_start_x = 4;
 	int files_start_y = 6;
 
-	/*for (int y = files_start_y; y < files_size_y + files_start_y; y++)
+	for (int y = files_start_y; y < files_size_y + files_start_y; y++)
 	{
 		for (int x = files_start_x; x < files_size_x + files_start_x; x++)
 		{
 			setCursor(x, y);
-			std::cout << '*';
+			std::cout << ' ';
 		}
-	}*/
+	}
 	int files_show_start = 0;
 	int new_cursor = cursor;
 
-	if (cursor > files_size_y)
+	if (cursor >= files_size_y)
 	{
-		files_show_start = cursor - files_start_y;
-		new_cursor = cursor - files_show_start - 1;
+		files_show_start = cursor - files_size_y + 1;
+		new_cursor = cursor - files_show_start;
 		std::cout << " --- " << files_show_start << " --- ";
 	}
 
@@ -79,7 +79,13 @@ void UiMaker::updateContent()
 		else if (i == new_cursor + 1) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
 
 		setCursor(files_start_x, files_start_y + i);
-		std::cout << files[i + files_show_start].getName();
+		
+		std::string s = files[i + files_show_start].getName();
+		if (s.length() > files_size_x)
+		{
+			s = s.substr(0, files_size_x - 3) + "...";
+		}
+		std::cout << s;
 	}
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
 }
