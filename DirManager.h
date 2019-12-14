@@ -14,5 +14,6 @@ public:
 	DirManager(std::string p = "C:\\");
 	std::string getPath();
 	std::vector<File> getFiles();
+	void setPath(std::string p);
 };
 

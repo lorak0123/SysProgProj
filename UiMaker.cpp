@@ -48,7 +48,7 @@ void UiMaker::updateContent()
 
 	for (int y = files_start_y; y < files_size_y + files_start_y; y++)
 	{
-		for (int x = files_start_x; x < files_size_x + files_start_x; x++)
+		for (int x = files_start_x - 2; x < files_size_x + files_start_x; x++)
 		{
 			setCursor(x, y);
 			std::cout << ' ';
@@ -104,6 +104,19 @@ void UiMaker::updateContent(std::vector<File> f, std::string d)
 {
 	dir = d;
 	files = f;
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
+
+	
+	setCursor(2, 2);
+	
+	for (int i = 0; i < maxx - 4; i++)
+		std::cout << ' ';
+	
+	setCursor(2, 2);
+	std::cout << dir;
+
+	updateContent();
 }
 
 void UiMaker::cursorMove(int move)

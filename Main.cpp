@@ -5,6 +5,8 @@
 #include <vector>
 #include "CopyDaysAdapter.h"
 #include "DirManager.h"
+#include "DatabaseManager.h"
+#include "FilesManager.h"
 
 
 using namespace std;
@@ -25,13 +27,31 @@ int main(void)
 	cout << cda << endl;
 	system("pause");*/
 
+
+
+	
+
+	//DatabaseManager test
+
+	/*DatabaseManager db = DatabaseManager("C:\\Users\\karol\\Wnek\\config.txt");
 	DirManager dm = DirManager("C:\\Users\\karol");
 
+	db.save(dm.getFiles());
+
+	vector<File> files = db.load();
+	for (int i = 0; i < files.size(); i++)
+	{
+		std::cout << files[i].getPath() + "\t" + files[i].getName() + "\t" << files[i].getCopyDate() << "\t" << files[i].isDir() << '\n';
+	}
+
+	system("pause");*/
+
+	FilesManager fm = FilesManager("C:\\Users\\karol\\Wnek\\config.txt", "C:\\Users\\karol");
 
 	UiMaker ui = UiMaker();
 
 
-	ui.updateContent(dm.getFiles(), dm.getPath());
+	ui.updateContent(fm.getFiles(), fm.getPath());
 
 	ui.draw();
 
@@ -55,16 +75,33 @@ int main(void)
 			ui.refresh(); 
 			if (res.getCopyDate() != file.getCopyDate())
 			{
-				cout << "save & refresh";
+				fm.updateFile(res);
+				ui.updateContent(fm.getFiles(), fm.getPath());
 			}
 
 			
+		}
+		else if (key == 13)
+		{
+			File file = ui.getFile();
+
+			if (file.isDir())
+			{
+				fm.setPath(file.getPath() + "\\" + file.getName());
+
+				ui.updateContent(fm.getFiles(), fm.getPath());
+			}
+		}
+		else if (key == 27)
+		{
+			fm.moveUp();
+			ui.updateContent(fm.getFiles(), fm.getPath());
 		}
 		else if (key == 83) break;
 
 
 
-		cout << key << ' ';
+		//cout << key << ' ';
 
 		
 		if (ui.sizeChanges()) ui.refresh();
