@@ -14,8 +14,15 @@ std::vector<File> DirManager::getFiles()
 {
 	std::vector<File> res;
 
-	for (auto& entry : std::filesystem::directory_iterator(path))
-		res.push_back(File(entry.path().filename().string(), path, entry.is_directory(), 0));
+	try {
+		for (const auto& entry : std::filesystem::directory_iterator(path))
+			res.push_back(File(entry.path().filename().string(), path, entry.is_directory(), 0));
+	}
+	catch (std::system_error x)
+	{
+		//std::cout << x.what() << std::endl;
+		//system("pause");
+	}
 	
 	return res;
 }

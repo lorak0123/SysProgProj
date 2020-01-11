@@ -57,14 +57,15 @@ void FilesManager::setPath(std::string p)
 void FilesManager::moveUp()
 {
 	std::string res = dm.getPath();
-	for (int i = res.length() - 1; i >= 0; i--)
+	for (int i = res.length() - 2; i >= 0; i--)
 	{
 		if (res[i] == '\\')
 		{
-			res = res.substr(0, i);
+			res = res.substr(0, i+1);
 			break;
 		}
 	}
+	if (res == "C:") res = "C:\\";
 
 	dm.setPath(res);
 }

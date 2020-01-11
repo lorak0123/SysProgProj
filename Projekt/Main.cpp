@@ -46,7 +46,7 @@ int main(void)
 
 	system("pause");*/
 
-	FilesManager fm = FilesManager("C:\\Users\\karol\\Wnek\\config.txt", "C:\\Users\\karol");
+	FilesManager fm = FilesManager("C:\\Users\\karol\\Wnek\\config.txt", "C:\\Users\\karol\\");
 
 	UiMaker ui = UiMaker();
 
@@ -87,7 +87,7 @@ int main(void)
 
 			if (file.isDir())
 			{
-				fm.setPath(file.getPath() + "\\" + file.getName());
+				fm.setPath(file.getPath() + file.getName() + "\\");
 
 				ui.updateContent(fm.getFiles(), fm.getPath());
 			}

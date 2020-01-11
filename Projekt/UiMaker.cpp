@@ -104,6 +104,7 @@ void UiMaker::updateContent(std::vector<File> f, std::string d)
 {
 	dir = d;
 	files = f;
+	cursor = 0;
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
 
