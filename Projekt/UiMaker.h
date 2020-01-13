@@ -12,6 +12,7 @@ class UiMaker : public Window
 private:
 	std::vector <File> files;
 	std::string dir;
+	int display_cursor;
 	int cursor;
 	void drawFrame();
 	void updateContent();
