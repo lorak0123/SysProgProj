@@ -5,6 +5,7 @@
 #include <chrono>
 #include <ctime>
 #include <string>
+#include <future>
 #include "FilesFilter.h"
 #include "../Projekt/File.h"
 #include "../Projekt/DatabaseManager.h"
@@ -17,6 +18,7 @@ using namespace std;
 
 
 bool dirExists(const std::string& dirName_in);
+void makeCopy(string file_name, string target);
 
 int main()
 {
@@ -49,7 +51,11 @@ int main()
 		{
 			filesystem::create_directories(target_dir);
 
-			filesystem::copy(files[i].getPath() + files[i].getName(), target_dir, std::filesystem::copy_options::recursive);
+			future<void> fut = async(makeCopy, files[i].getPath() + files[i].getName(), target_dir);
+
+			cout << files[i].getName() <<" done\n";
+
+			//filesystem::copy(files[i].getPath() + files[i].getName(), target_dir, std::filesystem::copy_options::recursive);
 
 		}
 	}
@@ -72,4 +78,9 @@ bool dirExists(const std::string& dirName_in)
 		return true;   // this is a directory!
 
 	return false;    // this is not a directory!
+}
+
+void makeCopy(string file_name, string target)
+{
+	filesystem::copy(file_name, target, std::filesystem::copy_options::recursive);
 }
