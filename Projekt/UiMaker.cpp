@@ -29,12 +29,35 @@ void UiMaker::drawFrame()
 		std::cout << "#";
 	}
 
+	/*for (int y = 6; y < maxy - 2; y++)
+	{
+		for (int x = maxx - 47; x < maxx - 3; x++)
+		{
+			setCursor(x, y);
+			std::cout << "#";
+		}
+	}*/
+
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
 	setCursor(2, 2);
 	std::cout << dir;
 
-	setCursor(10, 10);
+
+	setCursor(maxx - 47, 6);
+	std::cout << "Up and Down arrows - navigate the list";
+
+	setCursor(maxx - 47, 8);
+	std::cout << "Enter - Open selected foder";
+
+	setCursor(maxx - 47, 10);
+	std::cout << "A - Open archiving setting";
+
+	setCursor(maxx - 47, 12);
+	std::cout << "Esc - Return to previous folder";
+
+	setCursor(maxx - 47, 14);
+	std::cout << "Del - Exit the program";
 
 
 }
@@ -57,7 +80,6 @@ void UiMaker::updateContent()
 	{
 		files_show_start = (cursor / files_size_y) * files_size_y;
 		new_cursor = cursor - files_show_start;
-		//std::cout << " --- " << files_show_start << " --- ";
 	}
 
 	if (display_cursor == -1 || cursor / files_size_y != display_cursor / files_size_y)
@@ -151,8 +173,16 @@ void UiMaker::cursorMove(int move)
 {
 	cursor += move;
 
-	if (cursor < 0) cursor = files.size() - 1;
-	else if (cursor >= files.size()) cursor = 0;
+	if (cursor < 0)
+	{
+		cursor = files.size() - 1;
+		display_cursor = -1;
+	}
+	else if (cursor >= files.size())
+	{
+		cursor = 0;
+		display_cursor = -1;
+	}
 
 	updateContent();
 }
