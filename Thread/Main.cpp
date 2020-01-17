@@ -22,6 +22,9 @@ void makeCopy(string file_name, string target);
 
 int main()
 {
+	HWND hWnd = GetConsoleWindow();
+	ShowWindow(hWnd, SW_HIDE);
+
 	auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
 
 	DatabaseManager db = DatabaseManager("C:\\Users\\karol\\Wnek\\config.txt");
@@ -30,8 +33,8 @@ int main()
 	int weekday = ((timenow / 86400) - 4) % 7;
 
 
-	for (int i = 0; i < files.size(); i++)
-		cout << files[i].getPath() << files[i].getName() << endl;
+	/*for (int i = 0; i < files.size(); i++)
+		cout << files[i].getPath() << files[i].getName() << endl;*/
 
 
 	
@@ -53,7 +56,7 @@ int main()
 
 			future<void> fut = async(makeCopy, files[i].getPath() + files[i].getName(), target_dir);
 
-			cout << files[i].getName() <<" done\n";
+			//cout << files[i].getName() <<" done\n";
 
 			//filesystem::copy(files[i].getPath() + files[i].getName(), target_dir, std::filesystem::copy_options::recursive);
 
